@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sudoku Sphere</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
+</head>
+<body>
+    <h1 class="title">Solve the Sudoku</h1>
+
+    <div class="button-container">
+        <button onclick="generateNewPuzzle()">New Puzzle</button>
+        <button onclick="showSolution()">Show Solution</button>
+        <button onclick="checkAnswer()">Check Answer</button>
+        <button onclick="uploadSudoku()">Upload Sudoku</button>
+    </div>
+
+    <div class="difficulty-container">
+        <label for="difficulty-slider">Select Difficulty:</label>
+        <input type="range" id="difficulty-slider" min="1" max="3" value="1" step="1"
+               oninput="updateDifficultyLabel(this.value)">
+        <span id="difficulty-label">Easy</span>
+    </div>
+
+    <form id="sudoku-form">
+        <table id="sudoku-board">
+            {% for row in range(9) %}
+            <tr>
+                {% for col in range(9) %}
+                <td>
+                    <input type="number" min="1" max="9" name="cell-{{ row }}-{{ col }}"
+                           value="{{ puzzle[row][col] if puzzle[row][col] != 0 else '' }}"
+                           {% if puzzle[row][col] != 0 %} readonly {% endif %}
+                           oninput="updateCell({{ row }}, {{ col }}, this.value)">
+                </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </form>
+
+    <div id="result-message"></div>
+</body>
+</html>
