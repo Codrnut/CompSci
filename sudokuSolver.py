@@ -62,7 +62,7 @@ def algo():
                 box = cv2.resize(box, (input_size, input_size))/255.0            
                 boxes.append(box)
         return boxes
-    full_path = os.path.join('static/uploadedSudoku', os.listdir('static/uploadedSudoku')[0])
+    full_path = os.path.join('static/uploadedSudoku', os.listdir('static/uploadedSudoku')[1])
     img = cv2.imread(full_path)
 
     board, location = findBoard(img)
