@@ -2,23 +2,45 @@ body {
     background-color: #121212;
     color: #ffffff;
     font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  
     min-height: 100vh;
     margin: 0;
 }
+.title{
+    height: 50px;
+    margin-top: 10px;
 
-h1.title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #ffa500;
-    margin-bottom: 20px;
+
+    width: 100%;
+
 }
 
 .button-container {
     margin-bottom: 20px;
 }
 
+input#file{
+    background: #333;
+    border: 1px solid #ffa500;
+    padding: 10px;
+    margin: 10px;
+    color: #ffa500;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    right: 0;
+    overflow: scroll;
+}
+.button-container{
+    width: 100%;
+    display: flex;
+    height: 50px;
+
+}
 button {
     background-color: #333;
     color: #ffa500;
@@ -40,10 +62,12 @@ button:hover {
     margin-bottom: 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
 }
 
 #sudoku-board {
+    margin: 20px;
     border-collapse: collapse;
     margin-top: 20px;
     background-color: #333;
@@ -131,4 +155,34 @@ button:hover {
 #difficulty-slider:hover::-moz-range-thumb,
 #difficulty-slider:hover::-ms-thumb {
     background-color: #ffa500; /* Ensure consistent color */
+}
+
+.result-img{
+    border-radius: 20px;
+    height: 500px;
+    width: 500px;
+
+}
+#result-message{
+    color: #ffa500;
+    position: relative;
+    right: 0;
+    top: 20%;
+    height: 300px;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    height: 90%;
+    margin: 20px;
+    border: 3px solid   #ffa500;
+    padding: 20px;
+    
+
+}
+.main{
+    display: flex;
+    flex-direction: row;
+    width: 100%;;
 }

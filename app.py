@@ -1,7 +1,25 @@
 from flask import Flask, render_template, jsonify, request
 import random
-
+from flask_wtf import FlaskForm
+from wtforms import FileField, SubmitField  
+from werkzeug.utils import secure_filename
+import os
+from sudokuSolver import *
+import cv2 
+import numpy as np
+from keras.api.models import load_model
+import imutils 
+from matplotlib import pyplot as plt   
+import os    
+from PIL import Image   
+ 
 app = Flask(__name__)
+
+app.config["SECRET_KEY"]='supersecretkey'
+app.config['UPLOAD_FOLDER']='static/uploadedSudoku'
+class uploadFileForm(FlaskForm):
+    file = FileField("File")
+    submit=SubmitField("Upload Sudoku")
 
 
 def generate_sudoku(difficulty):
@@ -63,13 +81,28 @@ current_puzzle = generate_sudoku('easy')
 current_solution = solve_sudoku([row[:] for row in current_puzzle])
 
 
-@app.route('/')
+@app.route('/', methods=["GET", "POST" ])
 def index():
-    return render_template('index.html', puzzle=current_puzzle)
+    form = uploadFileForm()
+    if form.validate_on_submit():
+        file=form.file.data  #Grab file
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),app.config['UPLOAD_FOLDER'],secure_filename(file.filename))) #save file 
+        algo() #Run the algorithm
 
+    file_path="static/solvedSudoku/solved.jpg"
+    if os.path.exists(file_path):
+        print('File exists')
+    
+    return render_template('index.html', puzzle=current_puzzle, form=form, img=file_path)
+
+@app.route('/static/solvedSudoku/solved.jpg')
+def send_uploaded_file(filename=''):
+    from flask import send_from_directory
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 @app.route('/new_puzzle', methods=['POST'])
 def new_puzzle():
+        
     data = request.get_json()
     difficulty = data.get('difficulty', 'easy')
 

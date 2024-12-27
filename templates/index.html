@@ -8,22 +8,31 @@
     <script src="{{ url_for('static', filename='js/script.js') }}" defer></script>
 </head>
 <body>
-    <h1 class="title">Solve the Sudoku</h1>
+    <div class="title">
+        <h1 class="title">SUDOKU SPHERE</h1>
+
+    </div>
 
     <div class="button-container">
         <button onclick="generateNewPuzzle()">New Puzzle</button>
         <button onclick="showSolution()">Show Solution</button>
         <button onclick="checkAnswer()">Check Answer</button>
-        <button onclick="uploadSudoku()">Upload Sudoku</button>
+        <form method="POST" enctype="multipart/form-data">
+            {{form.hidden_tag()}}
+            {{form.file()}}
+            {{form.submit()}}
+        </form>
+        <div class="difficulty-container">
+            <label for="difficulty-slider">Select Difficulty:</label>
+        
+            <input type="range" id="difficulty-slider" min="1" max="3" value="1" step="1"
+                   oninput="updateDifficultyLabel(this.value)">
+            <span id="difficulty-label">Easy</span>
+        </div>
+       
     </div>
 
-    <div class="difficulty-container">
-        <label for="difficulty-slider">Select Difficulty:</label>
-        <input type="range" id="difficulty-slider" min="1" max="3" value="1" step="1"
-               oninput="updateDifficultyLabel(this.value)">
-        <span id="difficulty-label">Easy</span>
-    </div>
-
+   <div class="main">
     <form id="sudoku-form">
         <table id="sudoku-board">
             {% for row in range(9) %}
@@ -41,6 +50,13 @@
         </table>
     </form>
 
-    <div id="result-message"></div>
+    <div id="result-message">
+        <h1>Solved Puzzle</h1>
+        <img class="result-img" src={{ url_for('static', filename='solvedSudoku/solved.jpg' ) }}/>
+        </div>
+   </div>
+
+    
+    
 </body>
 </html>
